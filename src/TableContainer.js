@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import { useTable, useSortBy } from 'react-table';
 import { Table } from 'reactstrap';
 
 const TableContainer = ({ columns, data }) => {
@@ -9,10 +9,17 @@ const TableContainer = ({ columns, data }) => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({
-    columns,
-    data,
-  });
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useSortBy
+  );
+
+  const generateSortingIndicator = (column) => {
+    return column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : '';
+  };
 
   return (
     <Table bordered hover {...getTableProps()}>
@@ -20,7 +27,10 @@ const TableContainer = ({ columns, data }) => {
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {column.render('Header')}
+                {generateSortingIndicator(column)}
+              </th>
             ))}
           </tr>
         ))}

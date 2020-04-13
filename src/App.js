@@ -21,6 +21,7 @@ const App = () => {
       {
         Header: 'Title',
         accessor: 'name.title',
+        disableSortBy: true,
       },
       {
         Header: 'First Name',
@@ -46,6 +47,7 @@ const App = () => {
           const second = Number(longitude) > 0 ? 'E' : 'W';
           return first + '/' + second;
         },
+        disableSortBy: true,
         Cell: ({ cell }) => {
           const { value } = cell;
 
