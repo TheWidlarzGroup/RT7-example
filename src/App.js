@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { Container } from 'reactstrap';
 import TableContainer from './TableContainer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -40,7 +42,11 @@ const App = () => {
     []
   );
 
-  return <TableContainer columns={columns} data={data} />;
+  return (
+    <Container style={{ marginTop: 100 }}>
+      <TableContainer columns={columns} data={data} />
+    </Container>
+  );
 };
 
 export default App;

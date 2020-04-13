@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import { Table } from 'reactstrap';
 
 const TableContainer = ({ columns, data }) => {
   const {
@@ -14,7 +15,7 @@ const TableContainer = ({ columns, data }) => {
   });
 
   return (
-    <table {...getTableProps()}>
+    <Table bordered hover {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -37,7 +38,7 @@ const TableContainer = ({ columns, data }) => {
           );
         })}
       </tbody>
-    </table>
+    </Table>
   );
 };
 
