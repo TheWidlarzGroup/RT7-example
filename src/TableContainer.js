@@ -1,15 +1,16 @@
-import React from 'react';
-import { useTable, useSortBy, useFilters } from 'react-table';
+import React, { Fragment } from 'react';
+import { useTable, useSortBy, useFilters, useExpanded } from 'react-table';
 import { Table } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './filters';
 
-const TableContainer = ({ columns, data }) => {
+const TableContainer = ({ columns, data, renderRowSubComponent }) => {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
+    visibleColumns,
   } = useTable(
     {
       columns,
@@ -17,7 +18,8 @@ const TableContainer = ({ columns, data }) => {
       defaultColumn: { Filter: DefaultColumnFilter },
     },
     useFilters,
-    useSortBy
+    useSortBy,
+    useExpanded
   );
 
   const generateSortingIndicator = (column) => {
@@ -46,11 +48,22 @@ const TableContainer = ({ columns, data }) => {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-              })}
-            </tr>
+            <Fragment key={row.getRowProps().key}>
+              <tr>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  );
+                })}
+              </tr>
+              {row.isExpanded && (
+                <tr>
+                  <td colSpan={visibleColumns.length}>
+                    {renderRowSubComponent(row)}
+                  </td>
+                </tr>
+              )}
+            </Fragment>
           );
         })}
       </tbody>
