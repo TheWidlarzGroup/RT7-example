@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import TableContainer from './TableContainer';
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -13,7 +14,33 @@ const App = () => {
     doFetch();
   }, []);
 
-  return <div>Hello</div>;
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Title',
+        accessor: 'name.title',
+      },
+      {
+        Header: 'First Name',
+        accessor: 'name.first',
+      },
+      {
+        Header: 'Last Name',
+        accessor: 'name.last',
+      },
+      {
+        Header: 'Email',
+        accessor: 'email',
+      },
+      {
+        Header: 'City',
+        accessor: 'location.city',
+      },
+    ],
+    []
+  );
+
+  return <TableContainer columns={columns} data={data} />;
 };
 
 export default App;
