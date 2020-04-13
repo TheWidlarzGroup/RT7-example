@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Container } from 'reactstrap';
 import TableContainer from './TableContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { SelectColumnFilter } from './filters';
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -22,6 +23,8 @@ const App = () => {
         Header: 'Title',
         accessor: 'name.title',
         disableSortBy: true,
+        Filter: SelectColumnFilter,
+        filter: 'equals',
       },
       {
         Header: 'First Name',
@@ -48,6 +51,8 @@ const App = () => {
           return first + '/' + second;
         },
         disableSortBy: true,
+        Filter: SelectColumnFilter,
+        filter: 'equals',
         Cell: ({ cell }) => {
           const { value } = cell;
 
