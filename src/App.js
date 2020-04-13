@@ -38,6 +38,33 @@ const App = () => {
         Header: 'City',
         accessor: 'location.city',
       },
+      {
+        Header: 'Hemisphere',
+        accessor: (values) => {
+          const { latitude, longitude } = values.location.coordinates;
+          const first = Number(latitude) > 0 ? 'N' : 'S';
+          const second = Number(longitude) > 0 ? 'E' : 'W';
+          return first + '/' + second;
+        },
+        Cell: ({ cell }) => {
+          const { value } = cell;
+
+          const pickEmoji = (value) => {
+            let first = value[0]; // N or S
+            let second = value[2]; // E or W
+            const options = ['⇖', '⇗', '⇙', '⇘'];
+            let num = first === 'N' ? 0 : 2;
+            num = second === 'E' ? num + 1 : num;
+            return options[num];
+          };
+
+          return (
+            <div style={{ textAlign: 'center', fontSize: 18 }}>
+              {pickEmoji(value)}
+            </div>
+          );
+        },
+      },
     ],
     []
   );
